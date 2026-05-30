@@ -16,17 +16,17 @@ const CategoryFilter = () => {
   ];
 
   return (
-    <div className="w-full py-20 px-16">
+    <div className="w-full py-20 md:px-16">
       {/* Title */}
       <div className="text-center mb-4">
-        <h2 className="text-xl md:text-3xl font-extrabold tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
           <span className="text-secondary">Shop by</span>
           <span className="text-primary"> Category</span>
         </h2>
       </div>
 
       {/* Pills */}
-      <div className="flex flex-wrap justify-center py-8 gap-5 px-4">
+      <div className="flex flex-wrap justify-center py-8 gap-3  md:gap-5 px-4">
         {categories.map((item) => {
           const isActive = activeCategory === item.name;
 
