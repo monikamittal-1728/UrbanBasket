@@ -1,12 +1,12 @@
-import React from 'react'
-import Home from './pages/Home'
+import React from "react";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <div>
-      <Home/>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+      <Home />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
