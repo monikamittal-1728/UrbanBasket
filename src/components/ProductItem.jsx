@@ -1,7 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../store/cartSlice";
 
 const ProductItem = ({ data }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
   const navigate = useNavigate();
 
   let handleProductClick = (id) => {
@@ -9,6 +14,24 @@ const ProductItem = ({ data }) => {
   };
   const discountedPrice =
     data.price - (data.price * data.discountPercentage) / 100;
+
+  const isInCart = cartItems.some((item) => item.id === data?.id);
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    if (!data || isInCart) return;
+
+    dispatch(
+      addToCart({
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        discountPercentage: data.discountPercentage,
+        image: data.images?.[0],
+        category: data.category,
+      }),
+    );
+  };
 
   return (
     <div
@@ -103,28 +126,28 @@ const ProductItem = ({ data }) => {
 
           {/* Add button — expands on hover */}
           <button
-            className="
-            flex items-center gap-0 overflow-hidden
-            bg-gradient-to-r from-primary to-primary-dark
-            text-white text-xs font-semibold
-            h-9 px-3 rounded-xl
-            max-w-[36px] group-hover:max-w-[120px]
-            group-hover:px-4 group-hover:gap-2
-            shadow-[0_4px_12px_rgba(245,134,18,0.3)]
-            hover:shadow-[0_6px_16px_rgba(245,134,18,0.45)]
-            active:scale-95
-            transition-all duration-300
-          "
+            onClick={handleAddToCart}
+            disabled={isInCart}
+            className={`
+    flex items-center gap-0 overflow-hidden
+    text-white text-xs font-semibold
+    h-9 px-3 rounded-xl
+    max-w-[36px] group-hover:max-w-[130px]
+    group-hover:px-4 group-hover:gap-2
+    active:scale-95
+    transition-all duration-300
+    ${
+      isInCart
+        ? "bg-green-500 cursor-not-allowed shadow-[0_4px_12px_rgba(34,197,94,0.3)] hover:shadow-[0_6px_16px_rgba(34,197,94,0.45)]"
+        : "bg-gradient-to-r from-primary to-primary-dark shadow-[0_4px_12px_rgba(245,134,18,0.3)] hover:shadow-[0_6px_16px_rgba(245,134,18,0.45)]"
+    }
+  `}
           >
-            <span className="text-lg font-light leading-none">+</span>
-            <span
-              className="
-              opacity-0 group-hover:opacity-100
-              whitespace-nowrap
-              transition-opacity duration-200
-            "
-            >
-              Add to Cart
+            <span className="text-lg font-light leading-none">
+              {isInCart ? "✓" : "+"}
+            </span>
+            <span className="opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200">
+              {isInCart ? "Added to Cart" : "Add to Cart"}
             </span>
           </button>
         </div>

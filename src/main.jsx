@@ -6,11 +6,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./pages/NotFound.jsx";
 import Home from "./pages/Home.jsx";
 import PageLoader from "./components/PageLoader.jsx";
-
+import { Provider } from "react-redux";
+import  store  from "./store/store.js";
 const Cart = lazy(() => import("./pages/Cart.jsx"));
-const ProductDetail = lazy(
-  () => import("./pages/ProductDetail.jsx"),
-);
+const ProductDetail = lazy(() => import("./pages/ProductDetail.jsx"));
 
 const appRouter = createBrowserRouter([
   {
@@ -43,6 +42,8 @@ const appRouter = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={appRouter}/>
+    <Provider store={store}>
+      <RouterProvider router={appRouter} />
+    </Provider>
   </StrictMode>,
 );

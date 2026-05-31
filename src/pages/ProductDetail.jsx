@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { MdShoppingCart } from "react-icons/md";
+import { MdShoppingCart, MdCheck } from "react-icons/md";
 import { useParams, Link } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
 import PageLoader from "../components/PageLoader";
+import { addToCart } from "../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductDetail = () => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
   const { id } = useParams();
   const [selectedImg, setSelectedImg] = useState(0);
   const { productdata, loading, error } = useProducts(
@@ -23,6 +28,22 @@ const ProductDetail = () => {
     (1 - productdata?.discountPercentage / 100)
   ).toFixed(2);
 
+  const isInCart = cartItems.some((item) => item.id === productdata?.id);
+
+  const handleAddToCart = () => {
+    if (!productdata || isInCart) return;
+
+    dispatch(
+      addToCart({
+        id: productdata.id,
+        title: productdata.title,
+        price: productdata.price,
+        discountPercentage: productdata.discountPercentage,
+        image: productdata.images?.[0],
+        category: productdata.category,
+      }),
+    );
+  };
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
@@ -132,8 +153,26 @@ const ProductDetail = () => {
           <hr className="border-orange-100" />
 
           {/* Add to Cart */}
-          <button className="w-full py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-semibold rounded-2xl hover:from-orange-500 hover:to-orange-600 transition-all duration-200 shadow-lg shadow-orange-200 hover:shadow-orange-300 active:scale-95 flex items-center justify-center gap-2">
-            Add to Cart <MdShoppingCart className="text-xl" />
+          <button
+            onClick={handleAddToCart}
+            disabled={isInCart}
+            className={`w-full py-4 text-white font-semibold rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 ${
+              isInCart
+                ? "bg-green-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 shadow-lg shadow-orange-200 hover:shadow-orange-300 active:scale-95"
+            }`}
+          >
+            {isInCart ? (
+              <>
+                <MdCheck className="text-xl" />
+                Added to Cart
+              </>
+            ) : (
+              <>
+                <MdShoppingCart className="text-xl" />
+                Add to Cart
+              </>
+            )}
           </button>
           {/* Meta info */}
           <div className="grid grid-cols-2 gap-3 text-sm">
