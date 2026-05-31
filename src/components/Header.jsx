@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdHome, MdShoppingCart, MdSearch } from "react-icons/md";
-import { Link, Links } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { setSearchQuery } from "../store/searchSlice";
 
 const Header = () => {
-  const cartCount = 2;
+  const [inputValue, setInputValue] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation(); // ✅ was missing — you were using window.location before
+
+  const cartCount = useSelector((state) =>
+    state.cart.items.reduce((total, item) => total + item.quantity, 0)
+  );
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      dispatch(setSearchQuery(inputValue));
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
-      {/* Main Navbar */}
-      <div className=" mx-auto px-8 md:px-16 py-3">
+      <div className="mx-auto px-8 md:px-16 py-3">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
           {/* Logo + Mobile Nav */}
           <div className="flex items-center justify-between md:justify-start gap-4">
-            {/* Logo */}
             <Link to="/">
               <div className="flex items-center gap-2 cursor-pointer shrink-0">
                 <img
@@ -34,17 +51,21 @@ const Header = () => {
                   <MdHome className="text-2xl text-secondary" />
                 </button>
               </Link>
-              <Link to="cart  ">
-                <button className="relative p-2 rounded-full bg-secondary text-white">
+              <Link to="cart">
+                <button className={`relative p-2 rounded-full transition
+                  ${cartCount > 0
+                    ? "bg-secondary text-white"
+                    : "text-secondary hover:bg-orange-50 hover:text-primary"
+                  }`}
+                >
                   <MdShoppingCart className="text-2xl" />
-
                   {cartCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}
                 </button>
-              </Link>{" "}
+              </Link>
             </nav>
           </div>
 
@@ -52,12 +73,22 @@ const Header = () => {
           <div className="w-full md:flex-1 md:max-w-4xl">
             <div className="flex items-center gap-2 px-4 py-3 rounded-full border border-gray-200 bg-slate-50 focus-within:border-primary transition-all">
               <MdSearch className="text-[#17173A] text-xl shrink-0" />
-
               <input
                 type="text"
                 placeholder="Search products..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleSearch}
                 className="w-full bg-transparent outline-none text-[#17173A] placeholder:text-gray-400"
               />
+              {inputValue && (
+                <button
+                  onClick={() => { setInputValue(""); dispatch(setSearchQuery("")); }}
+                  className="text-gray-400 hover:text-gray-600 text-xl transition-colors"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
 
@@ -70,10 +101,14 @@ const Header = () => {
               </button>
             </Link>
             <Link to="cart">
-              <button className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-secondary text-white hover:bg-secondary-light transition-all duration-300">
+              <button className={`relative flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-300
+                ${cartCount > 0
+                  ? "bg-secondary text-white hover:bg-secondary-light"
+                  : "text-secondary hover:bg-orange-50 hover:text-primary"
+                }`}
+              >
                 <MdShoppingCart className="text-2xl" />
                 <span className="font-medium">Cart</span>
-
                 {cartCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1">
                     {cartCount}
@@ -82,10 +117,9 @@ const Header = () => {
               </button>
             </Link>
           </nav>
+
         </div>
       </div>
-
-      {/* Brand Orange Line */}
       <div className="h-1 bg-gradient-to-r from-[#fdb569] via-[#f74343] to-[#c9360e]" />
     </header>
   );
