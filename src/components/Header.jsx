@@ -1,5 +1,6 @@
 import React from "react";
 import { MdHome, MdShoppingCart, MdSearch } from "react-icons/md";
+import { Link, Links } from "react-router-dom";
 
 const Header = () => {
   const cartCount = 2;
@@ -12,17 +13,19 @@ const Header = () => {
           {/* Logo + Mobile Nav */}
           <div className="flex items-center justify-between md:justify-start gap-4">
             {/* Logo */}
-            <div className="flex items-center gap-2 cursor-pointer shrink-0">
-              <img
-                src="/logo2.png"
-                alt="UrbanBasket"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain"
-              />
-              <h1 className="text-xl md:text-3xl font-extrabold tracking-tight">
-                <span className="text-secondary">Urban</span>
-                <span className="text-primary">Basket</span>
-              </h1>
-            </div>
+            <Link to="/">
+              <div className="flex items-center gap-2 cursor-pointer shrink-0">
+                <img
+                  src="/logo2.png"
+                  alt="UrbanBasket"
+                  className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                />
+                <h1 className="text-xl md:text-3xl font-extrabold tracking-tight">
+                  <span className="text-secondary">Urban</span>
+                  <span className="text-primary">Basket</span>
+                </h1>
+              </div>
+            </Link>
 
             {/* Mobile Navigation */}
             <nav className="flex md:hidden items-center gap-2">
@@ -57,11 +60,13 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-full text-secondary hover:bg-orange-50 hover:text-primary transition-all duration-300">
-              <MdHome className="text-2xl" />
-              <span className="font-medium">Home</span>
-            </button>
-
+            <Link to="/">
+              <button className="flex items-center gap-2 px-4 py-2 rounded-full text-secondary hover:bg-orange-50 hover:text-primary transition-all duration-300">
+                <MdHome className="text-2xl" />
+                <span className="font-medium">Home</span>
+              </button>
+            </Link>
+            <Link to='cart'>
             <button className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-secondary text-white hover:bg-secondary-light transition-all duration-300">
               <MdShoppingCart className="text-2xl" />
               <span className="font-medium">Cart</span>
@@ -72,6 +77,7 @@ const Header = () => {
                 </span>
               )}
             </button>
+            </Link>
           </nav>
         </div>
       </div>

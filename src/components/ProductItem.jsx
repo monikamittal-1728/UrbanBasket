@@ -1,6 +1,8 @@
 import React from "react";
 
 const ProductItem = ({ data }) => {
+  console.log(data);
+  
   const discountedPrice =
     data.price - (data.price * data.discountPercentage) / 100;
 
@@ -28,7 +30,7 @@ const ProductItem = ({ data }) => {
         "/>
 
         <img
-          src={data.image}
+          src={data.thumbnail}
           alt={data.title}
           loading="lazy"
           className="h-full object-contain group-hover:scale-[1.08] transition-transform duration-300"

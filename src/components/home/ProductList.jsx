@@ -1,197 +1,27 @@
 import React from "react";
 import ProductItem from "../ProductItem";
+import useProducts from "../../hooks/useProducts";
+import PageLoader from "../PageLoader";
 
 const ProductList = () => {
- const products = [
-  {
-    id: 1,
-    title: "Essence Mascara Lash Princess",
-    category: "beauty",
-    price: 9.99,
-    discountPercentage: 10.48,
-    rating: 2.56,
-    image: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-  },
-  {
-    id: 2,
-    title: "Eyeshadow Palette with Mirror",
-    category: "beauty",
-    price: 19.99,
-    discountPercentage: 18.19,
-    rating: 2.86,
-    image: "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp",
-  },
-  {
-    id: 3,
-    title: "Powder Canister",
-    category: "beauty",
-    price: 14.99,
-    discountPercentage: 9.84,
-    rating: 4.64,
-    image: "https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp",
-  },
-  {
-    id: 4,
-    title: "Red Lipstick",
-    category: "beauty",
-    price: 12.99,
-    discountPercentage: 12.16,
-    rating: 4.36,
-    image: "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp",
-  },
-  {
-    id: 5,
-    title: "Red Nail Polish",
-    category: "beauty",
-    price: 8.99,
-    discountPercentage: 11.44,
-    rating: 4.32,
-    image: "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp",
-  },
+  const url = "https://dummyjson.com/products?limit=100";
+  const { products, loading, error } = useProducts(url);
 
-  {
-    id: 6,
-    title: "CK One Perfume",
-    category: "fragrances",
-    price: 49.99,
-    discountPercentage: 1.89,
-    rating: 4.37,
-    image: "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp",
-  },
-  {
-    id: 7,
-    title: "Chanel Coco Noir",
-    category: "fragrances",
-    price: 129.99,
-    discountPercentage: 16.51,
-    rating: 4.26,
-    image: "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp",
-  },
-  {
-    id: 8,
-    title: "Dior J'adore",
-    category: "fragrances",
-    price: 89.99,
-    discountPercentage: 14.72,
-    rating: 3.8,
-    image: "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/1.webp",
-  },
-  {
-    id: 9,
-    title: "Dolce Shine Eau de",
-    category: "fragrances",
-    price: 69.99,
-    discountPercentage: 0.62,
-    rating: 3.96,
-    image: "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/1.webp",
-  },
-  {
-    id: 10,
-    title: "Gucci Bloom Eau de",
-    category: "fragrances",
-    price: 79.99,
-    discountPercentage: 14.39,
-    rating: 2.74,
-    image: "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/1.webp",
-  },
+  if (loading) {
+    return <PageLoader />;
+  }
 
-  {
-    id: 11,
-    title: "Annibale Colombo Bed",
-    category: "furniture",
-    price: 1899.99,
-    discountPercentage: 8.57,
-    rating: 4.77,
-    image: "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/1.webp",
-  },
-  {
-    id: 12,
-    title: "Annibale Colombo Sofa",
-    category: "furniture",
-    price: 2499.99,
-    discountPercentage: 14.4,
-    rating: 3.92,
-    image: "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/1.webp",
-  },
-  {
-    id: 13,
-    title: "Bedside Table",
-    category: "furniture",
-    price: 299.99,
-    discountPercentage: 19.09,
-    rating: 2.87,
-    image: "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/1.webp",
-  },
-  {
-    id: 14,
-    title: "Executive Chair",
-    category: "furniture",
-    price: 499.99,
-    discountPercentage: 2.01,
-    rating: 4.88,
-    image: "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/1.webp",
-  },
-  {
-    id: 15,
-    title: "Bathroom Sink",
-    category: "furniture",
-    price: 799.99,
-    discountPercentage: 8.8,
-    rating: 3.59,
-    image: "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/1.webp",
-  },
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
-  {
-    id: 16,
-    title: "Apple",
-    category: "groceries",
-    price: 1.99,
-    discountPercentage: 12.62,
-    rating: 4.19,
-    image: "https://cdn.dummyjson.com/product-images/groceries/apple/1.webp",
-  },
-  {
-    id: 17,
-    title: "Beef Steak",
-    category: "groceries",
-    price: 12.99,
-    discountPercentage: 9.61,
-    rating: 4.47,
-    image: "https://cdn.dummyjson.com/product-images/groceries/beef-steak/1.webp",
-  },
-  {
-    id: 18,
-    title: "Chicken Meat",
-    category: "groceries",
-    price: 9.99,
-    discountPercentage: 13.7,
-    rating: 3.19,
-    image: "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/1.webp",
-  },
-  {
-    id: 19,
-    title: "Cooking Oil",
-    category: "groceries",
-    price: 4.99,
-    discountPercentage: 9.33,
-    rating: 4.8,
-    image: "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/1.webp",
-  },
-  {
-    id: 20,
-    title: "Ice Cream",
-    category: "groceries",
-    price: 5.49,
-    discountPercentage: 8.69,
-    rating: 3.39,
-    image: "https://cdn.dummyjson.com/product-images/groceries/ice-cream/1.webp",
-  },
-];
-
-
-  return   <div className="px-16  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-    {products.map(item => <ProductItem data={item}/>)}
-  </div>;
+  return (
+    <div className="px-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      {products.map((item) => (
+        <ProductItem key={item.id} data={item} />
+      ))}
+    </div>
+  );
 };
 
 export default ProductList;

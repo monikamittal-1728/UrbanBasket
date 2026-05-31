@@ -1,20 +1,26 @@
-import React from 'react'
-import Header from '../components/Header'
-import HeroSection from '../components/home/HeroSection'
-import TrustStrip from '../components/home/TrustStrip'
-import CategoryFilter from '../components/home/CategoryFilter'
-import ProductList from '../components/home/ProductList'
+import React, { lazy, Suspense } from "react";
+import HeroSection from "../components/home/HeroSection";
+import TrustStrip from "../components/home/TrustStrip";
+import PageLoader from "../components/PageLoader";
+
+const ProductList = lazy(() => import("../components/home/ProductList"));
+const CategoryFilter = lazy(() => import("../components/home/CategoryFilter"));
 
 const Home = () => {
   return (
     <div>
-      <Header/>
-      <HeroSection/>
-      <TrustStrip/>
-      <CategoryFilter/>
-      <ProductList/>
+      <HeroSection />
+      <TrustStrip />
+      
+      <Suspense fallback={<PageLoader />}>
+        <CategoryFilter />
+      </Suspense>
+      
+      <Suspense fallback={<PageLoader />}>
+      <ProductList />
+      </Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
