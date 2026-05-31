@@ -29,19 +29,22 @@ const Header = () => {
 
             {/* Mobile Navigation */}
             <nav className="flex md:hidden items-center gap-2">
-              <button className="p-2 rounded-full hover:bg-orange-50 transition">
-                <MdHome className="text-2xl text-secondary" />
-              </button>
+              <Link to="/">
+                <button className="p-2 rounded-full hover:bg-orange-50 transition">
+                  <MdHome className="text-2xl text-secondary" />
+                </button>
+              </Link>
+              <Link to="cart  ">
+                <button className="relative p-2 rounded-full bg-secondary text-white">
+                  <MdShoppingCart className="text-2xl" />
 
-              <button className="relative p-2 rounded-full bg-secondary text-white">
-                <MdShoppingCart className="text-2xl" />
-
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </button>
+              </Link>{" "}
             </nav>
           </div>
 
@@ -66,17 +69,17 @@ const Header = () => {
                 <span className="font-medium">Home</span>
               </button>
             </Link>
-            <Link to='cart'>
-            <button className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-secondary text-white hover:bg-secondary-light transition-all duration-300">
-              <MdShoppingCart className="text-2xl" />
-              <span className="font-medium">Cart</span>
+            <Link to="cart">
+              <button className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-secondary text-white hover:bg-secondary-light transition-all duration-300">
+                <MdShoppingCart className="text-2xl" />
+                <span className="font-medium">Cart</span>
 
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
             </Link>
           </nav>
         </div>

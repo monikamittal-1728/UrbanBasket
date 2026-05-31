@@ -1,13 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductItem = ({ data }) => {
-  console.log(data);
-  
+  const navigate = useNavigate();
+
+  let handleProductClick = (id) => {
+    navigate(`product/${id}`);
+  };
   const discountedPrice =
     data.price - (data.price * data.discountPercentage) / 100;
 
   return (
-    <div className="
+    <div
+      className="
       group relative bg-white
       rounded-3xl overflow-hidden
       border-[1.5px] border-border
@@ -16,18 +21,21 @@ const ProductItem = ({ data }) => {
       hover:shadow-[0_12px_32px_rgba(245,134,18,0.15)]
       hover:-translate-y-1
       transition-all duration-300
-    ">
-
+      cursor-pointer
+    "
+      onClick={() => handleProductClick(data.id)}
+    >
       {/* ── Image Area ── */}
       <div className="relative h-70 bg-gradient-to-br from-hover to-stone-300 flex items-center justify-center p-4 overflow-hidden">
-
         {/* hover tint */}
-        <div className="
+        <div
+          className="
           absolute inset-0
           bg-gradient-to-t from-primary/10 to-transparent
           opacity-0 group-hover:opacity-100
           transition-opacity duration-300
-        "/>
+        "
+        />
 
         <img
           src={data.thumbnail}
@@ -37,40 +45,45 @@ const ProductItem = ({ data }) => {
         />
 
         {/* Discount badge */}
-        <div className="
+        <div
+          className="
           absolute top-3 left-3
           bg-gradient-to-r from-primary to-primary-dark
           text-white text-[10px] font-bold tracking-wide
           px-3 py-1 rounded-full
           shadow-[0_2px_8px_rgba(245,134,18,0.4)]
-        ">
+        "
+        >
           {Math.round(data.discountPercentage)}% OFF
         </div>
       </div>
 
       {/* ── Content ── */}
       <div className="p-4 space-y-3">
-
         {/* Category + Rating */}
         <div className="flex items-center justify-between">
-          <span className="
+          <span
+            className="
             text-sm font-bold tracking-wider uppercase
             text-primary bg-hover
             px-3 py-1 rounded-full
             border border-primary/20
-          ">
+          "
+          >
             {data.category}
           </span>
           <span className="flex items-center gap-1 text-sm font-bold text-secondary">
-            <span className="text-[10px]">⭐</span>  {data.rating}
+            <span className="text-[10px]">⭐</span> {data.rating}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="
+        <h3
+          className="
           text-lg font-semibold text-secondary
           line-clamp-2 leading-snug
-        ">
+        "
+        >
           {data.title}
         </h3>
 
@@ -89,7 +102,8 @@ const ProductItem = ({ data }) => {
           </div>
 
           {/* Add button — expands on hover */}
-          <button className="
+          <button
+            className="
             flex items-center gap-0 overflow-hidden
             bg-gradient-to-r from-primary to-primary-dark
             text-white text-xs font-semibold
@@ -100,13 +114,16 @@ const ProductItem = ({ data }) => {
             hover:shadow-[0_6px_16px_rgba(245,134,18,0.45)]
             active:scale-95
             transition-all duration-300
-          ">
+          "
+          >
             <span className="text-lg font-light leading-none">+</span>
-            <span className="
+            <span
+              className="
               opacity-0 group-hover:opacity-100
               whitespace-nowrap
               transition-opacity duration-200
-            ">
+            "
+            >
               Add to Cart
             </span>
           </button>
@@ -114,7 +131,7 @@ const ProductItem = ({ data }) => {
       </div>
 
       {/* Bottom gradient strip */}
-      <div className="h-[3px] bg-gradient-to-r from-primary via-primary-dark to-accent"/>
+      <div className="h-[3px] bg-gradient-to-r from-primary via-primary-dark to-accent" />
     </div>
   );
 };

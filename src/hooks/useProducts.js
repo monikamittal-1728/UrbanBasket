@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useProducts = (url) => {
-  const [products, setProducts] = useState([]);
+  const [productdata, setProductdata] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,7 +20,7 @@ const useProducts = (url) => {
         }
 
         const data = await response.json();
-        setProducts(data.products);
+        setProductdata(data);
       } catch (err) {
         if (err.name !== "AbortError") {
           setError(err.message || "Something went wrong");
@@ -35,7 +35,7 @@ const useProducts = (url) => {
     return () => controller.abort();
   }, []);
 
-  return { products, loading, error };
+  return { productdata, loading, error };
 };
 
 export default useProducts;
