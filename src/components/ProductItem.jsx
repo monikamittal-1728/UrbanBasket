@@ -87,7 +87,7 @@ const ProductItem = ({ data }) => {
         <div className="flex items-center justify-between">
           <span
             className="
-            text-sm font-bold tracking-wider uppercase
+            text-[10px] font-bold tracking-wider uppercase
             text-primary bg-hover
             px-3 py-1 rounded-full
             border border-primary/20
@@ -103,7 +103,7 @@ const ProductItem = ({ data }) => {
         {/* Title */}
         <h3
           className="
-          text-lg font-semibold text-secondary
+          text-base font-semibold text-secondary
           line-clamp-2 leading-snug
         "
         >
@@ -113,7 +113,7 @@ const ProductItem = ({ data }) => {
         {/* Price + Add button */}
         <div className="flex items-center justify-between pt-1">
           <div>
-            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-[2px]">
+            <p className="text-[9px] font-bold tracking-widest uppercase text-gray-400 mb-[2px]">
               Deal Price
             </p>
             <p className="text-lg font-extrabold text-secondary tracking-tight">

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import React, { lazy, Suspense, useMemo, useState } from "react";
 import HeroSection from "../components/home/HeroSection";
 import TrustStrip from "../components/home/TrustStrip";
@@ -35,6 +36,18 @@ const Home = () => {
     });
   }, [productdata, activeCategory, searchQuery]);
 
+  const productSectionRef = useRef(null);
+
+  // scroll to product section when category or search changes
+  useEffect(() => {
+    if (productSectionRef.current) {
+      productSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [activeCategory, searchQuery]);
+
   if (loading) return <PageLoader />;
   if (error)
     return <div className="text-center py-10 text-red-500">{error}</div>;
@@ -43,22 +56,16 @@ const Home = () => {
     <div>
       <HeroSection />
       <TrustStrip />
-
-      <Suspense fallback={<PageLoader />}>
-        <CategoryFilter
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-          categories={categories}
-        />
-        <ProductList products={filteredProducts} />
-      </Suspense>
-      {/* <Suspense fallback={<PageLoader />}>
-        <CategoryFilter />
-      </Suspense>
-
-      <Suspense fallback={<PageLoader />}>
-        <ProductList />
-      </Suspense> */}
+      <div ref={productSectionRef}>
+        <Suspense fallback={<PageLoader />}>
+          <CategoryFilter
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+            categories={categories}
+          />
+          <ProductList products={filteredProducts} />
+        </Suspense>
+      </div>
     </div>
   );
 };
