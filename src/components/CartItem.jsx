@@ -1,7 +1,23 @@
 import React from "react";
 import { FiTrash2 } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "../store/cartSlice";
 
 const CartItem = ({ data }) => {
+  const dispatch = useDispatch();
+  let handleIncrease = () => {
+    dispatch(increaseQuantity(data));
+  };
+  let handleDecrement = () => {
+    dispatch(decreaseQuantity(data));
+  };
+  let handleRemoveItem = () => {
+    dispatch(removeFromCart(data));
+  };
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -25,7 +41,10 @@ const CartItem = ({ data }) => {
 
         {/* Quantity Controls */}
         <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-          <button className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition">
+          <button
+            onClick={handleDecrement}
+            className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
+          >
             −
           </button>
 
@@ -37,7 +56,10 @@ const CartItem = ({ data }) => {
           {/* Separator */}
           <div className="w-px h-5 bg-gray-200" />
 
-          <button className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition">
+          <button
+            onClick={handleIncrease}
+            className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
+          >
             +
           </button>
         </div>
@@ -50,6 +72,7 @@ const CartItem = ({ data }) => {
 
         {/* Remove */}
         <button
+          onClick={handleRemoveItem}
           className="w-10 h-10 rounded-full flex items-center justify-center text-red-500 bg-gray-100/50 hover:bg-red-50 transition"
           aria-label="Remove item"
         >
