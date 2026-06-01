@@ -5,7 +5,7 @@ import {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
-} from "../store/cartSlice";
+} from "../../store/cartSlice";
 
 const CartItem = ({ data }) => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const CartItem = ({ data }) => {
   let handleRemoveItem = () => {
     dispatch(removeFromCart(data));
   };
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col sm:flex-row items-center gap-4">

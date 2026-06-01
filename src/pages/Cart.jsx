@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-import CartItem from "../components/CartItem";
-// import CartItem from "../components/CartItem";
+import CartItem from "../components/cart/CartItem";
+import EmptyCart from "../components/cart/EmptyCart";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -20,6 +20,10 @@ const Cart = () => {
   const quantityMsg =
     quantity === 1 ? "1 item in your cart" : `${quantity} items in your cart`;
 
+  if (quantity === 0) {
+    return <EmptyCart />;
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
@@ -33,8 +37,7 @@ const Cart = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2.5fr_1fr] gap-8">
         {/* Cart Items */}
-        <div >
-
+        <div>
           <div className="space-y-4">
             {cartItems.map((item) => (
               <CartItem key={item.id} data={item} />
@@ -68,9 +71,8 @@ const Cart = () => {
               <span>Total</span>
               <span>${total}</span>
             </div>
-           
-            <hr />
 
+            <hr />
           </div>
 
           <button className="w-full mt-6 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl flex items-center justify-center gap-2 transition">
