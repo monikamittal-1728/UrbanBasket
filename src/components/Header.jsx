@@ -1,26 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdHome, MdShoppingCart, MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { setSearchQuery } from "../store/searchSlice";
 
 const Header = () => {
-  const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ was missing — you were using window.location before
+  const location = useLocation(); 
 
   const cartCount = useSelector((state) =>
     state.cart.items.reduce((total, item) => total + item.quantity, 0)
   );
+  const query = useSelector((state) => state.search.query);
 
   const handleSearch = (e) => {
-    if (e.key === "Enter") {
-      dispatch(setSearchQuery(inputValue));
+      dispatch(setSearchQuery(e.target.value));
       if (location.pathname !== "/") {
         navigate("/");
       }
-    }
   };
 
   return (
@@ -76,14 +74,13 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Search products..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleSearch}
+                value={query}
+                onChange={handleSearch}
                 className="w-full bg-transparent outline-none text-[#17173A] placeholder:text-gray-400"
               />
-              {inputValue && (
+              {query && (
                 <button
-                  onClick={() => { setInputValue(""); dispatch(setSearchQuery("")); }}
+                  onClick={() => dispatch(setSearchQuery(""))}
                   className="text-gray-400 hover:text-gray-600 text-xl transition-colors"
                 >
                   ✕

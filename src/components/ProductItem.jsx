@@ -117,9 +117,9 @@ const ProductItem = ({ data }) => {
               Deal Price
             </p>
             <p className="text-lg font-extrabold text-secondary tracking-tight">
-              ₹{discountedPrice.toFixed(0)}
+              ${discountedPrice.toFixed(0)}
               <span className="text-sm font-normal text-gray-400 line-through ml-2">
-                ₹{data.price}
+                ${data.price}
               </span>
             </p>
           </div>
