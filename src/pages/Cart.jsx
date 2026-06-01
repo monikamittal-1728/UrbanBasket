@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import CartItem from "../components/CartItem";
 // import CartItem from "../components/CartItem";
 
 const Cart = () => {
@@ -32,34 +33,11 @@ const Cart = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2.5fr_1fr] gap-8">
         {/* Cart Items */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">Cart Items</h2>
+        <div >
 
           <div className="space-y-4">
             {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center gap-4 border-b pb-4"
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-
-                <div className="flex-1">
-                  <h3 className="font-medium text-gray-800">{item.title}</h3>
-
-                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                </div>
-
-                <div className="font-semibold text-primary">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </div>
-              </div>
-
-              // OR
-              // <CartItem key={item.id} data={item} />
+              <CartItem key={item.id} data={item} />
             ))}
           </div>
         </div>
