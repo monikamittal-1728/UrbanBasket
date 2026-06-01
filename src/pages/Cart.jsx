@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import CartItem from "../components/cart/CartItem";
 import EmptyCart from "../components/cart/EmptyCart";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -23,7 +24,6 @@ const Cart = () => {
   if (quantity === 0) {
     return <EmptyCart />;
   }
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
@@ -48,7 +48,6 @@ const Cart = () => {
         {/* Order Summary */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm h-fit sticky top-4">
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-
           <div className="space-y-3 text-gray-600">
             <div className="flex justify-between">
               <span>Subtotal</span>
@@ -74,16 +73,18 @@ const Cart = () => {
 
             <hr />
           </div>
-
-          <button className="w-full mt-6 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl flex items-center justify-center gap-2 transition">
-            Proceed to Checkout
-            <FaArrowRight />
-          </button>
-
-          <button className="w-full mt-3 border border-gray-300 hover:bg-gray-50 py-3 rounded-xl flex items-center justify-center gap-2 transition">
-            <FaArrowLeft />
-            Continue Shopping
-          </button>
+          <Link to="/checkout">
+            <button className="w-full mt-6 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl flex items-center justify-center gap-2 transition">
+              Proceed to Checkout
+              <FaArrowRight />
+            </button>
+          </Link>
+          <Link to="/">
+            <button className="w-full mt-3 border border-gray-300 hover:bg-gray-50 py-3 rounded-xl flex items-center justify-center gap-2 transition">
+              <FaArrowLeft />
+              Continue Shopping
+            </button>
+          </Link>{" "}
         </div>
       </div>
     </div>
