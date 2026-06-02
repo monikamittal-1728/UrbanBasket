@@ -25,7 +25,7 @@ const ProductItem = ({ data }) => {
       addToCart({
         id: data.id,
         title: data.title,
-        price: data.price,
+        price: discountedPrice.toFixed(2),
         discountPercentage: data.discountPercentage,
         image: data.images?.[0],
         category: data.category,
@@ -117,7 +117,7 @@ const ProductItem = ({ data }) => {
               Deal Price
             </p>
             <p className="text-lg font-extrabold text-secondary tracking-tight">
-              ${discountedPrice.toFixed(0)}
+              ${discountedPrice.toFixed(2)}
               <span className="text-sm font-normal text-gray-400 line-through ml-2">
                 ${data.price}
               </span>
