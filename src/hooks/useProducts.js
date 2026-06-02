@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useProducts = (url) => {
-  const [productdata, setProductdata] = useState([]);
+  const [productdata, setProductdata] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,6 +12,7 @@ const useProducts = (url) => {
       try {
         setLoading(true);
         setError(null);
+        setProductdata(null);
 
         const response = await fetch(url, { signal: controller.signal });
 
@@ -33,7 +34,7 @@ const useProducts = (url) => {
     fetchProducts();
 
     return () => controller.abort();
-  }, []);
+  }, [url]);
 
   return { productdata, loading, error };
 };

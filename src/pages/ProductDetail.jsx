@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdShoppingCart, MdCheck } from "react-icons/md";
 import { useParams, Link } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
 import PageLoader from "../components/PageLoader";
 import { addToCart } from "../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ProductDetailSkeleton from "../components/ProductDetailSkeleton ";
 
 const ProductDetail = () => {
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -16,7 +22,10 @@ const ProductDetail = () => {
     `https://dummyjson.com/products/${id}`,
   );
 
-  if (loading) return <PageLoader />;
+  if (loading || !productdata?.id) {
+    return <ProductDetailSkeleton />;
+  }
+
   if (error)
     return <div className="text-center py-10 text-red-500">{error}</div>;
 
