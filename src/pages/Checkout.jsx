@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CheckoutDone from "../components/CheckoutDone";
+import { clearCart } from "../store/cartSlice";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const [checkoutDone, setcheckoutDone] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const subTotal = cartItems.reduce(
     (total, item) => total + item.quantity * item.price,
@@ -44,6 +48,8 @@ const Checkout = () => {
 
     if (!formData.zipCode.trim()) {
       newErrors.zipCode = "ZIP code is required";
+    } else if (!/^\d{6}$/.test(formData.zipCode)) {
+      newErrors.zipCode = "PIN code must be 6 digits";
     }
 
     if (!formData.payment) {
@@ -56,7 +62,6 @@ const Checkout = () => {
   };
   const handlePlaceOrder = () => {
     const isValid = validateForm();
-
     if (!isValid) {
       window.scrollTo({
         top: 0,
@@ -64,9 +69,8 @@ const Checkout = () => {
       });
       return;
     }
-
-    alert("Order placed successfully!");
-    console.log(formData);
+    setcheckoutDone(true);
+    dispatch(clearCart())
   };
 
   const handleChange = (e) => {
@@ -82,6 +86,11 @@ const Checkout = () => {
       [name]: "",
     }));
   };
+
+  if (checkoutDone) {
+    const userdata = {name:formData.fullName.trim(), email:formData.email.trim()}
+    return <CheckoutDone data={userdata}/>;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
