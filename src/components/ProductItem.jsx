@@ -4,67 +4,70 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../store/cartSlice";
 
+// ProductItem component: displays a single product card with image, title,
+// category, rating, discount badge, price, and "Add to Cart" button.
 const ProductItem = ({ data }) => {
-
-  console.log(data);
-  
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
-
   const navigate = useNavigate();
 
-  let handleProductClick = (id) => {
+  // Navigate to product detail page when card is clicked
+  const handleProductClick = (id) => {
     navigate(`product/${id}`);
   };
+
+  // Calculate discounted price
   const discountedPrice =
     data.price - (data.price * data.discountPercentage) / 100;
 
+  // Check if product is already in cart
   const isInCart = cartItems.some((item) => item.id === data?.id);
 
+  // Handle "Add to Cart" button click
   const handleAddToCart = (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevent triggering product detail navigation
     if (!data || isInCart) return;
 
     dispatch(
       addToCart({
         id: data.id,
         title: data.title,
-        price: discountedPrice.toFixed(2),
+        price: +discountedPrice.toFixed(2),
         discountPercentage: data.discountPercentage,
         image: data.images?.[0],
         category: data.category,
-      }),
+      })
     );
   };
-
 
   return (
     <div
       className="
-      group relative bg-white
-      rounded-3xl overflow-hidden
-      border-[1.5px] border-border
-      shadow-sm
-      hover:border-primary
-      hover:shadow-[0_12px_32px_rgba(245,134,18,0.15)]
-      hover:-translate-y-1
-      transition-all duration-300
-      cursor-pointer
-    "
+        group relative bg-white
+        rounded-3xl overflow-hidden
+        border-[1.5px] border-border
+        shadow-sm
+        hover:border-primary
+        hover:shadow-[0_12px_32px_rgba(245,134,18,0.15)]
+        hover:-translate-y-1
+        transition-all duration-300
+        cursor-pointer
+      "
       onClick={() => handleProductClick(data.id)}
     >
       {/* ── Image Area ── */}
       <div className="relative h-70 bg-gradient-to-br from-hover to-stone-300 flex items-center justify-center p-4 overflow-hidden">
-        {/* hover tint */}
+        {/* Hover tint overlay */}
         <div
           className="
-          absolute inset-0
-          bg-gradient-to-t from-primary/10 to-transparent
-          opacity-0 group-hover:opacity-100
-          transition-opacity duration-300
-        "
+            absolute inset-0
+            bg-gradient-to-t from-primary/10 to-transparent
+            opacity-0 group-hover:opacity-100
+            transition-opacity duration-300
+          "
         />
 
+        {/* Product thumbnail */}
         <img
           src={data.thumbnail}
           alt={data.title}
@@ -75,28 +78,28 @@ const ProductItem = ({ data }) => {
         {/* Discount badge */}
         <div
           className="
-          absolute top-3 left-3
-          bg-gradient-to-r from-primary to-primary-dark
-          text-white text-[10px] font-bold tracking-wide
-          px-3 py-1 rounded-full
-          shadow-[0_2px_8px_rgba(245,134,18,0.4)]
-        "
+            absolute top-3 left-3
+            bg-gradient-to-r from-primary to-primary-dark
+            text-white text-[10px] font-bold tracking-wide
+            px-3 py-1 rounded-full
+            shadow-[0_2px_8px_rgba(245,134,18,0.4)]
+          "
         >
           {Math.round(data.discountPercentage)}% OFF
         </div>
       </div>
 
-      {/* ── Content ── */}
+      {/* ── Content Area ── */}
       <div className="p-4 space-y-3">
         {/* Category + Rating */}
         <div className="flex items-center justify-between">
           <span
             className="
-            text-[10px] font-bold tracking-wider uppercase
-            text-primary bg-hover
-            px-3 py-1 rounded-full
-            border border-primary/20
-          "
+              text-[10px] font-bold tracking-wider uppercase
+              text-primary bg-hover
+              px-3 py-1 rounded-full
+              border border-primary/20
+            "
           >
             {data.category}
           </span>
@@ -105,18 +108,19 @@ const ProductItem = ({ data }) => {
           </span>
         </div>
 
-        {/* Title */}
+        {/* Product Title */}
         <h3
           className="
-          text-base font-semibold text-secondary
-          line-clamp-2 leading-snug
-        "
+            text-base font-semibold text-secondary
+            line-clamp-2 leading-snug
+          "
         >
           {data.title}
         </h3>
 
-        {/* Price + Add button */}
+        {/* Price + Add to Cart button */}
         <div className="flex items-center justify-between pt-1">
+          {/* Price display */}
           <div>
             <p className="text-[9px] font-bold tracking-widest uppercase text-gray-400 mb-[2px]">
               Deal Price
@@ -129,24 +133,24 @@ const ProductItem = ({ data }) => {
             </p>
           </div>
 
-          {/* Add button — expands on hover */}
+          {/* Add to Cart button */}
           <button
             onClick={handleAddToCart}
             disabled={isInCart}
             className={`
-    flex items-center gap-0 overflow-hidden
-    text-white text-xs font-semibold
-    h-9 px-3 rounded-xl
-    max-w-[36px] group-hover:max-w-[130px]
-    group-hover:px-4 group-hover:gap-2
-    active:scale-95
-    transition-all duration-300
-    ${
-      isInCart
-        ? "bg-green-500 cursor-not-allowed shadow-[0_4px_12px_rgba(34,197,94,0.3)] hover:shadow-[0_6px_16px_rgba(34,197,94,0.45)]"
-        : "bg-gradient-to-r from-primary to-primary-dark shadow-[0_4px_12px_rgba(245,134,18,0.3)] hover:shadow-[0_6px_16px_rgba(245,134,18,0.45)]"
-    }
-  `}
+              flex items-center gap-0 overflow-hidden
+              text-white text-xs font-semibold
+              h-9 px-3 rounded-xl
+              max-w-[36px] group-hover:max-w-[130px]
+              group-hover:px-4 group-hover:gap-2
+              active:scale-95
+              transition-all duration-300
+              ${
+                isInCart
+                  ? "bg-green-500 cursor-not-allowed shadow-[0_4px_12px_rgba(34,197,94,0.3)] hover:shadow-[0_6px_16px_rgba(34,197,94,0.45)]"
+                  : "bg-gradient-to-r from-primary to-primary-dark shadow-[0_4px_12px_rgba(245,134,18,0.3)] hover:shadow-[0_6px_16px_rgba(245,134,18,0.45)]"
+              }
+            `}
           >
             <span className="text-lg font-light leading-none">
               {isInCart ? "✓" : "+"}
@@ -164,7 +168,7 @@ const ProductItem = ({ data }) => {
   );
 };
 
-
+// Prop validation
 ProductItem.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,

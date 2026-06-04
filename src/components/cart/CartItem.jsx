@@ -11,14 +11,17 @@ import {
 const CartItem = ({ data }) => {
   const dispatch = useDispatch();
 
+  // Increase product quantity
   const handleIncrease = () => {
     dispatch(increaseQuantity(data));
   };
 
+  // Decrease product quantity
   const handleDecrement = () => {
     dispatch(decreaseQuantity(data));
   };
 
+  // Remove product from cart
   const handleRemoveItem = () => {
     dispatch(removeFromCart(data));
   };
@@ -26,7 +29,7 @@ const CartItem = ({ data }) => {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-        {/* Product Image + Details */}
+        {/* Product Information */}
         <div className="flex items-center gap-4 w-full sm:flex-1 min-w-0">
           <img
             src={data.image}
@@ -43,18 +46,20 @@ const CartItem = ({ data }) => {
               {data.title}
             </h3>
 
-            <p className="text-sm text-gray-500 mt-1">${data.price} each</p>
+            <p className="text-sm text-gray-500 mt-1">
+              ${data.price} each
+            </p>
           </div>
         </div>
 
-        {/* Controls Row */}
+        {/* Quantity Controls, Price & Remove Button */}
         <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
-          {/* Quantity Controls */}
+          {/* Quantity Selector */}
           <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white">
             <button
               onClick={handleDecrement}
               disabled={data.quantity === 1}
-              className={` w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition ${
+              className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition ${
                 data.quantity === 1
                   ? "text-gray-300"
                   : "cursor-pointer hover:bg-gray-100 hover:text-primary"
@@ -62,6 +67,7 @@ const CartItem = ({ data }) => {
             >
               −
             </button>
+
             <div className="w-px h-5 bg-gray-200" />
 
             <span className="w-10 sm:w-12 text-center font-medium">
@@ -72,24 +78,24 @@ const CartItem = ({ data }) => {
 
             <button
               onClick={handleIncrease}
-              className="w-9 h-9 cursor-pointer  sm:w-10 sm:h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
+              className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 hover:text-primary transition"
             >
               +
             </button>
           </div>
 
-          {/* Price */}
+          {/* Item Total Price */}
           <div className="min-w-[80px] sm:min-w-[90px] text-right">
             <p className="text-base sm:text-lg font-bold text-secondary">
               ${(data.price * data.quantity).toFixed(2)}
             </p>
           </div>
 
-          {/* Remove Button */}
+          {/* Remove Item */}
           <button
             onClick={handleRemoveItem}
-            className="w-9 h-9 sm:w-10 sm:h-10 cursor-pointer  rounded-full flex items-center justify-center text-red-500 bg-gray-100/50 hover:bg-red-50 transition"
             aria-label="Remove item"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer text-red-500 bg-gray-100/50 hover:bg-red-50 transition"
           >
             <FiTrash2 size={18} />
           </button>
@@ -99,13 +105,17 @@ const CartItem = ({ data }) => {
   );
 };
 
+// Props validation
 CartItem.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    price: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]).isRequired,
     quantity: PropTypes.number.isRequired,
   }).isRequired,
 };

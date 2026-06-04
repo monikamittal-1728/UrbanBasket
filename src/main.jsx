@@ -8,7 +8,7 @@ import Home from "./pages/Home.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import { Provider } from "react-redux";
 import  store  from "./store/store.js";
-import Checkout from "./pages/Checkout.jsx";
+const Checkout = lazy(() => import("./pages/Checkout.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail.jsx"));
 
