@@ -1,9 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../store/cartSlice";
 
 const ProductItem = ({ data }) => {
+
+  console.log(data);
+  
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -32,6 +36,7 @@ const ProductItem = ({ data }) => {
       }),
     );
   };
+
 
   return (
     <div
@@ -157,6 +162,22 @@ const ProductItem = ({ data }) => {
       <div className="h-[3px] bg-gradient-to-r from-primary via-primary-dark to-accent" />
     </div>
   );
+};
+
+
+ProductItem.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    description: PropTypes.string,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    stock: PropTypes.number,
+    discountPercentage: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default ProductItem;

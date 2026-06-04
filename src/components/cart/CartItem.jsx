@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FiTrash2 } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import {
@@ -42,9 +43,7 @@ const CartItem = ({ data }) => {
               {data.title}
             </h3>
 
-            <p className="text-sm text-gray-500 mt-1">
-              ${data.price} each
-            </p>
+            <p className="text-sm text-gray-500 mt-1">${data.price} each</p>
           </div>
         </div>
 
@@ -54,11 +53,15 @@ const CartItem = ({ data }) => {
           <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white">
             <button
               onClick={handleDecrement}
-              className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
+              disabled={data.quantity === 1}
+              className={` w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition ${
+                data.quantity === 1
+                  ? "text-gray-300"
+                  : "cursor-pointer hover:bg-gray-100 hover:text-primary"
+              }`}
             >
               −
             </button>
-
             <div className="w-px h-5 bg-gray-200" />
 
             <span className="w-10 sm:w-12 text-center font-medium">
@@ -69,7 +72,7 @@ const CartItem = ({ data }) => {
 
             <button
               onClick={handleIncrease}
-              className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
+              className="w-9 h-9 cursor-pointer  sm:w-10 sm:h-10 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition"
             >
               +
             </button>
@@ -85,7 +88,7 @@ const CartItem = ({ data }) => {
           {/* Remove Button */}
           <button
             onClick={handleRemoveItem}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-red-500 bg-gray-100/50 hover:bg-red-50 transition"
+            className="w-9 h-9 sm:w-10 sm:h-10 cursor-pointer  rounded-full flex items-center justify-center text-red-500 bg-gray-100/50 hover:bg-red-50 transition"
             aria-label="Remove item"
           >
             <FiTrash2 size={18} />
@@ -94,6 +97,17 @@ const CartItem = ({ data }) => {
       </div>
     </div>
   );
+};
+
+CartItem.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    quantity: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default CartItem;

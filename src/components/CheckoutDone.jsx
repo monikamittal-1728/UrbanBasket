@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -71,4 +72,14 @@ const CheckoutDone = ({ data }) => {
   );
 };
 
+CheckoutDone.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+  }),
+};
+
+CheckoutDone.defaultProps = {
+  data: null,
+};
 export default CheckoutDone;

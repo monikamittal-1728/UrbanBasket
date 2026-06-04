@@ -14,7 +14,7 @@ const Home = () => {
 
   const searchQuery = useSelector((state) => state.search.query);
 
-  const url = "https://dummyjson.com/products?limit=100";
+  const url = 'https://dummyjson.com/products?limit=100&select=id,title,price,thumbnail,category,rating,description,images,stock,discountPercentage';
   const { productdata, loading, error } = useProducts(url);
 
   const categories = useMemo(() => {
