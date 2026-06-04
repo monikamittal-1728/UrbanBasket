@@ -31,7 +31,7 @@ const Header = () => {
             <Link to="/">
               <div className="flex items-center gap-2 cursor-pointer shrink-0">
                 <img
-                  src="/logo2.png"
+                  src="/logo.png"
                   alt="UrbanBasket"
                   className="w-10 h-10 md:w-12 md:h-12 object-contain"
                 />
