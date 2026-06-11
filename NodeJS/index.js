@@ -6,7 +6,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { routes } from "./Routes/product.routes.js";
+import { cartRoutes, routes } from "./Routes/product.routes.js";
 
 // Create an Express application instance
 const app = express();
@@ -46,3 +46,4 @@ app.listen(PORT, () => {
 });
 
 routes(app);
+cartRoutes(app);
