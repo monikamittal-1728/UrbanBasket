@@ -18,11 +18,13 @@ const ProductDetail = () => {
 
   const { id } = useParams();
   const [selectedImg, setSelectedImg] = useState(0);
-  const { productdata, loading, error } = useProducts(
-    `https://dummyjson.com/products/${id}`,
-  );
+  const url = `http://localhost:3000/api/product/${id}`;
 
-  if (loading || !productdata?.id) {
+  const { data, loading, error } = useProducts(url);
+
+  console.log(data);
+  
+  if (loading || !data?.id) {
     return <ProductDetailSkeleton />;
   }
 
@@ -33,23 +35,23 @@ const ProductDetail = () => {
     str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
 
   const discountedPrice = (
-    productdata?.price *
-    (1 - productdata?.discountPercentage / 100)
+    data?.price *
+    (1 - data?.discountPercentage / 100)
   ).toFixed(2);
 
-  const isInCart = cartItems.some((item) => item.id === productdata?.id);
+  const isInCart = cartItems.some((item) => item.id === data?.id);
 
   const handleAddToCart = () => {
-    if (!productdata || isInCart) return;
+    if (!data || isInCart) return;
 
     dispatch(
       addToCart({
-        id: productdata.id,
-        title: productdata.title,
+        id: data.id,
+        title: data.title,
         price: +discountedPrice,
-        discountPercentage: productdata.discountPercentage,
-        image: productdata.images?.[0],
-        category: productdata.category,
+        discountPercentage: data.discountPercentage,
+        image: data.images?.[0],
+        category: data.category,
       }),
     );
   };
@@ -62,7 +64,7 @@ const ProductDetail = () => {
         </Link>
         <span>/</span>
         <span className="text-secondary">
-          {capitalizeFirst(productdata?.category)}
+          {capitalizeFirst(data?.category)}
         </span>
       </nav>
 
@@ -71,15 +73,15 @@ const ProductDetail = () => {
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl overflow-hidden bg-orange-50 border border-orange-100 aspect-square flex items-center justify-center">
             <img
-              src={productdata?.images?.[selectedImg]}
-              alt={productdata?.title}
+              src={data?.images?.[selectedImg]}
+              alt={data?.title}
               className="w-full h-full object-contain p-6 transition-all duration-300"
             />
           </div>
 
-          {productdata?.images?.length > 1 && (
+          {data?.images?.length > 1 && (
             <div className="flex gap-3 flex-wrap">
-              {productdata.images.map((img, i) => (
+              {data.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImg(i)}
@@ -103,15 +105,15 @@ const ProductDetail = () => {
         {/* Right — Info */}
         <div className="flex flex-col gap-5">
           <span className="self-start bg-orange-100 text-primary-dark  text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
-            {productdata?.category}
+            {data?.category}
           </span>
 
           <h1 className="text-3xl font-bold text-gray-800 leading-tight">
-            {productdata?.title}
+            {data?.title}
           </h1>
 
           <p className="text-gray-500 text-sm leading-relaxed">
-            {productdata?.description}
+            {data?.description}
           </p>
 
           {/* Rating */}
@@ -121,7 +123,7 @@ const ProductDetail = () => {
                 <span
                   key={i}
                   className={`text-lg ${
-                    i < Math.round(productdata?.rating)
+                    i < Math.round(data?.rating)
                       ? "text-primary"
                       : "text-gray-200"
                   }`}
@@ -131,7 +133,7 @@ const ProductDetail = () => {
               ))}
             </div>
             <span className="text-sm text-gray-500">
-              {productdata?.rating} / 5
+              {data?.rating} / 5
             </span>
           </div>
 
@@ -141,18 +143,18 @@ const ProductDetail = () => {
               ${discountedPrice}
             </span>
             <span className="text-lg text-gray-400 line-through mb-1">
-              ${productdata?.price}
+              ${data?.price}
             </span>
             <span className="mb-1 bg-green-100 text-green-600 text-sm font-semibold px-2 py-0.5 rounded-lg">
-              {Math.round(productdata?.discountPercentage)}% OFF
+              {Math.round(data?.discountPercentage)}% OFF
             </span>
           </div>
 
           {/* Stock */}
           <p className="text-sm">
-            {productdata?.stock > 0 ? (
+            {data?.stock > 0 ? (
               <span className="text-green-500 font-medium">
-                ✓ In Stock ({productdata.stock} left)
+                ✓ In Stock ({data.stock} left)
               </span>
             ) : (
               <span className="text-primary font-medium">✗ Out of Stock</span>
@@ -188,31 +190,31 @@ const ProductDetail = () => {
             <div className="bg-orange-50 rounded-xl p-3">
               <p className="text-gray-400">Brand</p>
               <p className="font-semibold text-gray-700">
-                {productdata?.brand || "—"}
+                {data?.brand || "—"}
               </p>
             </div>
             <div className="bg-orange-50 rounded-xl p-3">
               <p className="text-gray-400">SKU</p>
               <p className="font-semibold text-gray-700">
-                {productdata?.sku || "—"}
+                {data?.sku || "—"}
               </p>
             </div>
             <div className="bg-orange-50 rounded-xl p-3">
               <p className="text-gray-400">Warranty</p>
               <p className="font-semibold text-gray-700">
-                {productdata?.warrantyInformation || "—"}
+                {data?.warrantyInformation || "—"}
               </p>
             </div>
             <div className="bg-orange-50 rounded-xl p-3">
               <p className="text-gray-400">Shipping</p>
               <p className="font-semibold text-gray-700">
-                {productdata?.shippingInformation || "—"}
+                {data?.shippingInformation || "—"}
               </p>
             </div>
           </div>
 
           {/* Return Policy */}
-          {productdata?.returnPolicy && (
+          {data?.returnPolicy && (
             <div className="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl p-4">
               <span className="text-2xl">↩️</span>
               <div>
@@ -220,7 +222,7 @@ const ProductDetail = () => {
                   Return Policy
                 </p>
                 <p className="text-sm text-blue-500">
-                  {productdata.returnPolicy}
+                  {data.returnPolicy}
                 </p>
               </div>
             </div>
@@ -229,17 +231,17 @@ const ProductDetail = () => {
       </div>
 
       {/* Reviews Section */}
-      {productdata?.reviews?.length > 0 && (
+      {data?.reviews?.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             Customer Reviews
             <span className="ml-3 text-sm font-normal text-primary bg-orange-50 px-3 py-1 rounded-full">
-              {productdata.reviews.length} reviews
+              {data.reviews.length} reviews
             </span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {productdata.reviews.map((review, i) => (
+            {data.reviews.map((review, i) => (
               <div
                 key={i}
                 className="bg-white border border-orange-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-200"

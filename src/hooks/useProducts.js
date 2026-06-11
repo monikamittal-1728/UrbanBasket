@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // and manages loading, error, and data states.
 const useProducts = (url) => {
   // State for product data
-  const [productdata, setProductdata] = useState(null);
+  const [data, setData] = useState(null);
   // State for loading indicator
   const [loading, setLoading] = useState(true);
   // State for error messages
@@ -19,7 +19,7 @@ const useProducts = (url) => {
         // Reset states before fetching
         setLoading(true);
         setError(null);
-        setProductdata(null);
+        setData(null);
 
         // Fetch product data
         const response = await fetch(url, { signal: controller.signal });
@@ -30,8 +30,8 @@ const useProducts = (url) => {
         }
 
         // Parse JSON response
-        const data = await response.json();
-        setProductdata(data);
+        const result = await response.json();
+        setData(result.data);
       } catch (err) {
         // Ignore abort errors, handle others
         if (err.name !== "AbortError") {
@@ -51,7 +51,7 @@ const useProducts = (url) => {
   }, [url]); // Re-run when URL changes
 
   // Return hook state
-  return { productdata, loading, error };
+  return { data, loading, error };
 };
 
 export default useProducts;

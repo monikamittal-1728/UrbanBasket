@@ -1,6 +1,5 @@
 // Import necessary React hooks
-import { useEffect, useRef } from "react";
-import React, { lazy, Suspense, useMemo, useState } from "react";
+import React, { useEffect, useRef, lazy, Suspense, useMemo, useState } from "react";
 
 // Import static components
 import HeroSection from "../components/home/HeroSection";
@@ -26,31 +25,31 @@ const Home = () => {
   const searchQuery = useSelector((state) => state.search.query);
 
   // API URL to fetch products (limit 100 and select specific fields)
-  const url =
-    "https://dummyjson.com/products?limit=100&select=id,title,price,thumbnail,category,rating,description,images,stock,discountPercentage";
+  const url = "http://localhost:3000/api/products";
 
   // Custom hook returns product data, loading state, and error
-  const { productdata, loading, error } = useProducts(url);
+  const { data, loading, error } = useProducts(url);
+console.log(data);
 
   // Memoized category list (prevents recalculation on every render)
   const categories = useMemo(() => {
     // If products not loaded yet → default to "All"
-    if (!productdata?.products) return ["All"];
+    if (!data) return ["All"];
 
     // Extract unique categories from products
     const unique = [
-      ...new Set(productdata.products.map((p) => p.category)),
+      ...new Set(data.map((p) => p.category)),
     ];
 
     // Add "All" option at beginning
     return ["All", ...unique];
-  }, [productdata]);
+  }, [data]);
 
   // Memoized filtered product list (optimized filtering)
   const filteredProducts = useMemo(() => {
-    if (!productdata?.products) return [];
+    if (!data) return [];
 
-    return productdata.products.filter((p) => {
+    return data.filter((p) => {
       // Check if product matches selected category
       const matchesCategory =
         activeCategory === "All" ||
@@ -64,7 +63,7 @@ const Home = () => {
       // Return only products matching both conditions
       return matchesCategory && matchesSearch;
     });
-  }, [productdata, activeCategory, searchQuery]);
+  }, [data, activeCategory, searchQuery]);
 
   // Reference to product section (used for scrolling)
   const productSectionRef = useRef(null);

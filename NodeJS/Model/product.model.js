@@ -1,4 +1,4 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
   reviewerName: {
@@ -64,7 +64,9 @@ const productSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-
+    thumbnail: {
+      type: String,
+    },
     images: [
       {
         type: String,
@@ -87,7 +89,8 @@ const productSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+    toJSON: { virtuals: true },
+  },
 );
 
 export default mongoose.model("product", productSchema);

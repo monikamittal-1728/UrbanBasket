@@ -5,6 +5,8 @@
 
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
+import { routes } from "./Routes/product.routes.js";
 
 // Create an Express application instance
 const app = express();
@@ -14,7 +16,7 @@ const PORT = 3000;
 
 // Middleware to parse incoming JSON payloads (Essential for handling req.body)
 app.use(express.json());
-
+app.use(cors());
 /* =========================================================================
    1. DATABASE CONNECTION (MongoDB via Mongoose)
    ========================================================================= */
@@ -42,3 +44,5 @@ db.on("error", (err) => {
 app.listen(PORT, () => {
   console.log(`✅ Server is running smoothly at http://localhost:${PORT}`);
 });
+
+routes(app);

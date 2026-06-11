@@ -7,6 +7,7 @@ import { addToCart } from "../store/cartSlice";
 // ProductItem component: displays a single product card with image, title,
 // category, rating, discount badge, price, and "Add to Cart" button.
 const ProductItem = ({ data }) => {
+
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
