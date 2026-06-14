@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Cart from "../Model/cart.model.js";
 import Product from "../Model/product.model.js";
 
@@ -8,7 +9,7 @@ export async function getCart(req, res) {
       "title price thumbnail images discountPercentage",
     );
     if (!cart) return res.status(200).json({ success: true, data: [] });
-      const cartData = {
+    const cartData = {
       ...cart.toJSON(),
       items: cart.items.map((item) => ({
         id: item._id,
@@ -21,41 +22,71 @@ export async function getCart(req, res) {
     res.status(500).json({ success: false, message: error.message });
   }
 }
+
 export async function addToCart(req, res) {
-  const { productId, quantity = 1 } = req.body;
   try {
+    const { productId, quantity = 1 } = req.body;
+
+    // Quantity Validation
+    if (!Number.isInteger(quantity) || quantity < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "Quantity must be greater than 0",
+      });
+    }
+
+    // Product ID Validation
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Product ID",
+      });
+    }
+
     // Validate that the product exists before adding to cart
     const product = await Product.findById(productId);
-    if (!product)
-      return res
-        .status(404)
-        .json({ success: false, message: "Product not found" });
 
-    let cart = await Cart.findOne({ userId: req.user.id }); //check if user had anything already in cart
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    let cart = await Cart.findOne({ userId: req.user.id });
+
     if (!cart) {
-      //create new cart
+      // Create new cart
       cart = await Cart.create({
         userId: req.user.id,
         items: [{ productId, quantity }],
       });
     } else {
-      //update old cart
-      // check if product already in cart
+      // Check if product already exists in cart
       const existingItem = cart.items.find(
         (item) => item.productId.toString() === productId,
       );
+
       if (existingItem) {
-        //Increase Quantity
+        // Increase quantity
         existingItem.quantity += quantity;
       } else {
-        //add new item
+        // Add new item
         cart.items.push({ productId, quantity });
       }
+
       await cart.save();
     }
-    res.status(200).json({ success: true, data: cart });
+
+    res.status(200).json({
+      success: true,
+      data: cart,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 export async function updateCartItem(req, res) {

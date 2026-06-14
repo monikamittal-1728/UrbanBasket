@@ -57,3 +57,13 @@ authRoutes(app);
 app.listen(PORT, () => {
   console.log(`✅ Server is running smoothly at http://localhost:${PORT}`);
 });
+
+
+// Global Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});

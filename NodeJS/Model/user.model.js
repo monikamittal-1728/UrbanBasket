@@ -7,20 +7,20 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'Name is required'],
       trim: true, // Automatically removes leading/trailing white spaces
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
       unique: true,   // Ensures database-level uniqueness for user log-ins
       lowercase: true, // Forces string conversion to lowercase before saving
       trim: true,
     },
     password: {
       type: String,
-      required: true,
-      minlength: 6, // Basic validation rule for minimum character length
+      required: [true, 'Password is required'],
+      minlength: [6, 'Password must be at least 6 characters'],
     },
   },
   { 

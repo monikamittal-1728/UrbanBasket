@@ -1,33 +1,35 @@
 import jwt from "jsonwebtoken";
 
 /**
- * Middleware function to protect private routes by verifying the JWT token.
- * Intercepts incoming requests, validates headers, and decodes the user payload.
+ * Middleware to protect private routes by verifying JWT token.
  */
 const protect = (req, res, next) => {
-  // Extract the Authorization header from the request
   const authToken = req.headers.authorization;
-  
-  // Check if the authorization header exists and follows the 'Bearer <token>' format
+
+  // Check Authorization header
   if (!authToken || !authToken.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token, access denied" });
+    return res.status(401).json({
+      success: false,
+      message: "No token, access denied",
+    });
   }
-  
-  // Extract the actual token string from the header space split
+
+  // Extract token
   const token = authToken.split(" ")[1];
 
   try {
-    // Verify the token validity using the secure key from your .env file
+    // Verify token
     const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Attach the decoded token payload (e.g., userId) directly to the request object
+
+    // Attach decoded payload to request
     req.user = decodedUser;
-    
-    // Pass execution control over to the next middleware or controller function
+
     next();
   } catch (error) {
-    // Catch authorization flaws (expired tokens, mismatched keys, or tampering)
-    return res.status(401).json({ message: "Invalid token, access denied" });
+    return res.status(401).json({
+      success: false,
+      message: "Invalid token, access denied",
+    });
   }
 };
 
