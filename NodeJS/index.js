@@ -3,26 +3,33 @@
    Built with Node.js, Express & MongoDB
    ========================================================================= */
 
+import dotenv from "dotenv";
+// Initialize dotenv at the absolute top so variables are available everywhere
+dotenv.config();
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { cartRoutes, routes } from "./Routes/product.routes.js";
+import { routes } from "./Routes/product.routes.js";
+import { cartRoutes } from "./Routes/cart.routes.js";
+import { authRoutes } from "./Routes/auth.routes.js";
 
 // Create an Express application instance
 const app = express();
 
-// Define the port the server will listen on
-const PORT = 3000;
+// Define the port using the environment variable, falling back to 3000 if not set
+const PORT = process.env.PORT || 3000;
 
 // Middleware to parse incoming JSON payloads (Essential for handling req.body)
 app.use(express.json());
 app.use(cors());
+
 /* =========================================================================
    1. DATABASE CONNECTION (MongoDB via Mongoose)
    ========================================================================= */
 
-// Connect to the local MongoDB instance under the explicit database name 'urbanbasket'
-mongoose.connect("mongodb://127.0.0.1:27017/urbanbasket");
+// Connect to MongoDB using the URI from your .env file
+mongoose.connect(process.env.MONGODB_URI);
 
 const db = mongoose.connection;
 
@@ -47,3 +54,4 @@ app.listen(PORT, () => {
 
 routes(app);
 cartRoutes(app);
+authRoutes(app);

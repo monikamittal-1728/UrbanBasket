@@ -1,23 +1,31 @@
 import mongoose from "mongoose";
 import Product from "../Model/product.model.js";
 
+/**
+ * Controller: Fetch all products from the database
+ * Selects only essential fields for performance optimization
+ */
 export async function getProducts(req, res) {
   try {
+    // Retrieve products focusing specifically on display-ready attributes
     const products = await Product.find().select(
       "title price images category rating description stock thumbnail discountPercentage",
     );
 
     res.status(200).json({ success: true, data: products });
   } catch (error) {
-    res.status(500).json({success:false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 }
 
+/**
+ * Controller: Fetch a single product by its MongoDB unique identifier
+ */
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Check if ID is valid MongoDB ObjectId
+    // Validation: Confirm path parameter matches standard ObjectId length/format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -27,7 +35,7 @@ export const getProductById = async (req, res) => {
 
     const product = await Product.findById(id);
 
-    // Product not found
+    // Validation: Explicit handle if database search returns null
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -35,7 +43,6 @@ export const getProductById = async (req, res) => {
       });
     }
 
-    // Success
     return res.status(200).json({
       success: true,
       data: product,

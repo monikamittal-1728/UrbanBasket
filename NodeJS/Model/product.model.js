@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+// ==========================================
+// 1. SUB-SCHEMA: PRODUCT REVIEWS
+// ==========================================
 const reviewSchema = new mongoose.Schema({
   reviewerName: {
     type: String,
@@ -21,8 +24,12 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
+// ==========================================
+// 2. MAIN SCHEMA: PRODUCT DETAILS
+// ==========================================
 const productSchema = new mongoose.Schema(
   {
+    // Basic Information
     title: {
       type: String,
       required: true,
@@ -41,9 +48,10 @@ const productSchema = new mongoose.Schema(
     },
     sku: {
       type: String,
-      unique: true,
+      unique: true, // Prevents duplicate stock keeping units
     },
 
+    // Pricing Fields
     price: {
       type: Number,
       required: true,
@@ -53,17 +61,19 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
 
+    // Inventory & Metrics
     stock: {
       type: Number,
       default: 0,
     },
-
     rating: {
       type: Number,
       default: 0,
       min: 0,
-      max: 5,
+      max: 5, // Aggregated product rating
     },
+
+    // Media Assets (URLs)
     thumbnail: {
       type: String,
     },
@@ -73,24 +83,25 @@ const productSchema = new mongoose.Schema(
       },
     ],
 
+    // Logistics & Policies
     warrantyInformation: {
       type: String,
     },
-
     shippingInformation: {
       type: String,
     },
-
     returnPolicy: {
       type: String,
     },
 
+    // Embedded Sub-document Array
     reviews: [reviewSchema],
   },
   {
-    timestamps: true,
-    toJSON: { virtuals: true },
-  },
+    timestamps: true,          // Automatically adds 'createdAt' and 'updatedAt'
+    toJSON: { virtuals: true }, // Ensures virtual properties are included when serialized
+  }
 );
 
+// Export Mongoose model mapping to the 'products' collection
 export default mongoose.model("product", productSchema);
