@@ -10,9 +10,9 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { routes } from "./Routes/product.routes.js";
-import { cartRoutes } from "./Routes/cart.routes.js";
-import { authRoutes } from "./Routes/auth.routes.js";
+import { routes } from "./routes/product.routes.js";
+import { cartRoutes } from "./routes/cart.routes.js";
+import { authRoutes } from "./routes/auth.routes.js";
 
 // Create an Express application instance
 const app = express();
