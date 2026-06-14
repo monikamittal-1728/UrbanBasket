@@ -43,6 +43,12 @@ db.on("error", (err) => {
   console.error("❌ UrbanBasket Database connection failed:", err);
 });
 
+
+
+routes(app);
+cartRoutes(app);
+authRoutes(app);
+
 /* =========================================================================
    2. START THE SERVER
    ========================================================================= */
@@ -51,7 +57,3 @@ db.on("error", (err) => {
 app.listen(PORT, () => {
   console.log(`✅ Server is running smoothly at http://localhost:${PORT}`);
 });
-
-routes(app);
-cartRoutes(app);
-authRoutes(app);
