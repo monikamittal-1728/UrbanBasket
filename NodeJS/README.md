@@ -29,8 +29,8 @@ UrbanBasket Backend is a RESTful API developed using Node.js, Express.js, and Mo
 ```
 NodeJS
 │
-├── controllers
-├── models
+├── controller
+├── model
 ├── routes
 ├── middleware
 ├── .env
