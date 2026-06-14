@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Product from "../Model/product.model.js";
+import Product from "../model/product.model.js";
 
 /**
  * Controller: Fetch all products from the database

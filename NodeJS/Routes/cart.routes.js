@@ -9,7 +9,7 @@ import {
   addToCart,
   updateCartItem,
   removeFromCart,
-} from "../Controller/cart.controller.js";
+} from "../controller/cart.controller.js";
 import protect from "../middleware/authMiddleware.js";
 
 /**

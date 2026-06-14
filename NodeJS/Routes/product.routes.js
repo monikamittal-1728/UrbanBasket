@@ -3,7 +3,7 @@
    Maps public e-commerce product display endpoints to their respective controllers.
    ========================================================================= */
 
-import { getProductById, getProducts } from "../Controller/product.controller.js";
+import { getProductById, getProducts } from "../controller/product.controller.js";
 
 /**
  * Registers product display routes with the main Express application instance.
