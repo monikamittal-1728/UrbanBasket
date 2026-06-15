@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "6a3046feacd96d822bafcf16"
+  },
+  "userId": {
+    "$oid": "6a304053b7edad5e2f73d83f"
+  },
+  "items": [
+    {
+      "productId": {
+        "$oid": "6a303b0f2b344bd8b4b2e645"
+      },
+      "quantity": 4,
+      "_id": {
+        "$oid": "6a304738acd96d822bafcf1d"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "6a303b0f2b344bd8b4b2e62d"
+      },
+      "quantity": 2,
+      "_id": {
+        "$oid": "6a304746acd96d822bafcf25"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2026-06-15T18:39:58.569Z"
+  },
+  "updatedAt": {
+    "$date": "2026-06-15T18:44:26.887Z"
+  },
+  "__v": 2
+}]

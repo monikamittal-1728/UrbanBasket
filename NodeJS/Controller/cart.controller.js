@@ -11,7 +11,7 @@ import Product from "../model/product.model.js";
 async function getFormattedCart(userId) {
   const cart = await Cart.findOne({ userId }).populate(
     "items.productId",
-    "title price thumbnail images discountPercentage"
+    "name title price thumbnail images discountPercentage"
   );
 
   if (!cart) return [];

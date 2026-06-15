@@ -9,7 +9,7 @@ export async function getProducts(req, res) {
   try {
     // Retrieve products focusing specifically on display-ready attributes
     const products = await Product.find().select(
-      "title price images category rating description stock thumbnail discountPercentage",
+      "name title price images category rating description stock thumbnail discountPercentage",
     );
 
     res.status(200).json({ success: true, data: products });

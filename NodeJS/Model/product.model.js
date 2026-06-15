@@ -30,6 +30,11 @@ const reviewSchema = new mongoose.Schema({
 const productSchema = new mongoose.Schema(
   {
     // Basic Information
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     title: {
       type: String,
       required: true,
@@ -98,9 +103,9 @@ const productSchema = new mongoose.Schema(
     reviews: [reviewSchema],
   },
   {
-    timestamps: true,          // Automatically adds 'createdAt' and 'updatedAt'
+    timestamps: true, // Automatically adds 'createdAt' and 'updatedAt'
     toJSON: { virtuals: true }, // Ensures virtual properties are included when serialized
-  }
+  },
 );
 
 // Export Mongoose model mapping to the 'products' collection

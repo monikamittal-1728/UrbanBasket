@@ -34,6 +34,7 @@ NodeJS
 ├── routes
 ├── middleware
 ├── .env
+├── products.seed.js
 ├── index.js
 ├── package.json
 └── README.md
@@ -49,7 +50,25 @@ NodeJS
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 2. Database Setup (Seed Data)
+
+This project includes a seed file to populate the Products collection with sample data.
+
+Run the following command from the NodeJS folder:
+
+```bash
+node products.seed.js
+```
+
+Expected output:
+
+```bash
+Products inserted successfully
+```
+
+This command will insert sample product records into MongoDB and can be used to quickly set up the database for testing and evaluation.
+
+### 3. Configure Environment Variables
 
 Create a `.env` file and add:
 
@@ -59,7 +78,7 @@ MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
-### 3. Run the Application
+### 4. Run the Application
 
 ```bash
 npm start
